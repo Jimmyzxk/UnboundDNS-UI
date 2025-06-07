@@ -1,5 +1,3 @@
----
-
 # Unbound DNS 服务监控面板 (DNS Monitoring Dashboard)
 
 这是一个轻量级、自托管的监控面板，旨在通过一个现代、响应式的网页界面，实时监控 [Unbound](https://nlnetlabs.nl/projects/unbound/about/) 和 [Redis](https://redis.io/) 服务的状态。它非常适合部署在运行 DNS 服务的 Linux 服务器（如 Debian/Ubuntu）上，例如作为 Pi-hole 的上游，或独立的 DNS 解析器。
