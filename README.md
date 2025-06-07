@@ -4,7 +4,7 @@
 
 这是一个轻量级、自托管的监控面板，旨在通过一个现代、响应式的网页界面，实时监控 [Unbound](https://nlnetlabs.nl/projects/unbound/about/) 和 [Redis](https://redis.io/) 服务的状态。它非常适合部署在运行 DNS 服务的 Linux 服务器（如 Debian/Ubuntu）上，例如作为 Pi-hole 的上游，或独立的 DNS 解析器。
 
-# 🚀 主要功能
+#  主要功能
 
 *   **一体化监控：** 在一个页面上同时展示 Unbound 和 Redis 的关键性能指标。
 *   **实时数据：** 自动刷新数据，让您随时掌握最新状态。
@@ -17,7 +17,7 @@
 *   **轻量级后端：** 使用 Flask 和 Gunicorn 构建，资源占用极低。
 *   **一键部署：** 提供 Bash 脚本，可在 Debian/Ubuntu 系统上实现一键部署、回滚和诊断。
 
-# 🚀 快速部署
+#  快速部署
 
 此脚本设计用于在 Debian 或 Ubuntu 系统上运行。请确保您以 `root` 用户或具有 `sudo` 权限的用户执行。
 
