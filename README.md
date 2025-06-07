@@ -1,10 +1,6 @@
-好的，没问题！为您的项目编写一个清晰的 README.md 教程是吸引用户和帮助他们成功部署的关键。
-
-以下是一个专业、全面的 README.md 模板，您可以直接复制并保存为 `README.md` 文件，然后上传到您的 GitHub 仓库。
-
 ---
 
-# DNS 服务监控面板 (DNS Monitoring Dashboard)
+# Unbound DNS 服务监控面板 (DNS Monitoring Dashboard)
 
 这是一个轻量级、自托管的监控面板，旨在通过一个现代、响应式的网页界面，实时监控 [Unbound](https://nlnetlabs.nl/projects/unbound/about/) 和 [Redis](https://redis.io/) 服务的状态。它非常适合部署在运行 DNS 服务的 Linux 服务器（如 Debian/Ubuntu）上，例如作为 Pi-hole 的上游，或独立的 DNS 解析器。
 
@@ -43,7 +39,6 @@
     # 或者使用 wget:
     # wget -O deploy_dns_monitor.sh https://raw.githubusercontent.com/Jimmyzxk/UbuntuDNS-UI/refs/heads/main/deploy_dns_monitor.sh
     ```
-    > **注意：** 请将上面的 URL 替换为您上传到 GitHub Gist 或仓库的实际 `deploy_dns_monitor.sh` 文件的 Raw 链接。
 
 2.  **赋予脚本执行权限：**
 
