@@ -39,9 +39,9 @@
 1.  **下载部署脚本：**
 
     ```bash
-    curl -o deploy_dns_monitor.sh https://gist.githubusercontent.com/YourGitHubUsername/YourGistID/raw/deploy_dns_monitor.sh
+    curl -o deploy_dns_monitor.sh https://raw.githubusercontent.com/Jimmyzxk/UbuntuDNS-UI/refs/heads/main/deploy_dns_monitor.sh
     # 或者使用 wget:
-    # wget -O deploy_dns_monitor.sh https://gist.githubusercontent.com/YourGitHubUsername/YourGistID/raw/deploy_dns_monitor.sh
+    # wget -O deploy_dns_monitor.sh https://raw.githubusercontent.com/Jimmyzxk/UbuntuDNS-UI/refs/heads/main/deploy_dns_monitor.sh
     ```
     > **注意：** 请将上面的 URL 替换为您上传到 GitHub Gist 或仓库的实际 `deploy_dns_monitor.sh` 文件的 Raw 链接。
 
