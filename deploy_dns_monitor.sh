@@ -618,28 +618,50 @@ EOF
             transition: background-image 0.4s ease-in-out;
         }
 
-        /* Pulsing animation for status dot (移除，不再闪动) */
-        /* @keyframes pulse-green { ... } */
-        /* @keyframes pulse-red { ... } */
-        /* No animation classes applied in JS either now for dot updates */
+        /* --- 新增/修改的美化样式 --- */
 
+        /* 1. 实现 "标签居左，数值居右" 并美化数据行 */
         p {
-            margin: 0.4rem 0; /* 正文行间距，更宽松 */
-            font-size: 1rem; /* 正文字号，保持标准 */
+            margin: 0; /* 移除默认外边距 */
+            padding: 0.6rem 0.25rem; /* 增加垂直内边距来控制间距，并增加少量水平内边距 */
+            font-size: 1rem;
             display: flex;
             align-items: baseline;
-            justify-content: space-between; /* PC端，标签右对齐，值左对齐 */
-            gap: 0.4rem; /* 标签/值间距 */
-            flex-wrap: nowrap; /* PC端默认不换行 */
+            justify-content: space-between; /* 关键：将标签和值推向两端 */
+            gap: 1rem; /* 标签和值之间的最小间距 */
+            border-bottom: 1px solid var(--border-color); /* 添加分割线 */
+            transition: border-color 0.4s ease-in-out;
+        }
+
+        /* 移除最后一个数据行的分割线 */
+        .card p:last-of-type {
+            border-bottom: none;
+            padding-bottom: 0;
         }
 
         .label {
             font-weight: 500;
             color: var(--label-color);
             flex-shrink: 0;
-            width: 9rem; /* PC端标签宽度，增大 */
-            text-align: right; /* 标签右对齐 */
+            width: 10rem; /* 适当增大标签宽度以适应更长的文本 */
+            text-align: left; /* 【核心修改】标签文本左对齐 */
         }
+
+        .value-display {
+            color: var(--value-color);
+            font-weight: 600;
+            flex-grow: 1; 
+            text-align: right; /* 【核心修改】数值文本右对齐 */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            /* 2. 为数值部分应用等宽字体，使其对齐更美观 */
+            font-family: 'SF Mono', 'Menlo', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
+            font-size: 1.05em; /* 略微增大数值字体，使其更突出 */
+        }
+
+        /* --- 美化样式结束 --- */
+
         /* Style for the new inline status dot */
         .status-inline-dot {
             display: inline-block;
@@ -655,17 +677,6 @@ EOF
         }
         .status-inline-dot.status-red {
             background-color: var(--status-red);
-        }
-
-
-        .value-display {
-            color: var(--value-color);
-            font-weight: 600;
-            flex-grow: 1; /* 值占据剩余空间 */
-            text-align: left;
-            white-space: nowrap; /* 强制单行显示 */
-            overflow: hidden;
-            text-overflow: ellipsis; /* 溢出时显示省略号 */
         }
 
         .value-display.accent {
@@ -843,29 +854,31 @@ EOF
                 height: 2px;
                 margin-bottom: 0.7rem;
             }
+            
+            /* 手机端保持紧凑布局 */
             p {
-                /* 手机上强制标签和值行内显示并换行，不再分散对齐 */
                 flex-direction: row; 
                 align-items: baseline;
-                justify-content: flex-start; /* 紧密排列，不分散 */
-                margin: 0.2rem 0; /* 紧凑的行间距 */
-                gap: 0.15rem; /* 标签和值之间的小间距 */
-                font-size: 1rem; /* 手机正文字号，确保非常清晰 */
-                flex-wrap: wrap; /* 允许整体换行 */
+                justify-content: space-between; /* 在手机上也使用两端对齐 */
+                margin: 0;
+                padding: 0.4rem 0.1rem; /* 调整手机端的垂直内边距 */
+                font-size: 1rem;
             }
             .label {
                 width: auto; /* 自动宽度 */
                 text-align: left; /* 左对齐 */
-                padding-right: 0;
-                white-space: normal; /* 允许标签文字换行 */
+                padding-right: 0.5rem; /* 增加一点右边距，防止贴太近 */
+                white-space: nowrap; /* 手机端标签不换行 */
                 flex-shrink: 1; /* 允许标签收缩 */
             }
             .value-display {
-                white-space: normal; /* 允许文本换行 */
-                overflow: visible;
-                text-overflow: clip;
-                flex-grow: 0; /* 不允许值无限制增长 */
+                white-space: nowrap; /* 不换行 */
+                overflow: hidden;
+                text-overflow: ellipsis; /* 溢出时显示省略号 */
+                text-align: right;
+                font-size: 1em; /* 手机端数值字体恢复正常大小 */
             }
+
             #theme-toggle {
                 right: 0.5rem;
                 width: 2rem;
@@ -922,6 +935,7 @@ EOF
             }
             p {
                 font-size: 0.95rem; /* 最小屏幕正文字号 */
+                 padding: 0.3rem 0.1rem;
             }
             #theme-toggle {
                 right: 0.4rem;
@@ -962,32 +976,32 @@ EOF
         <div class="card unbound-card">
             <h2><span class="title-text">Unbound 服务状态</span></h2> <!-- 移除 H2 状态点 -->
             <div class="card-title-gradient-bar"></div>
-            <p><span class="label">状态:</span> <span id="unbound-status-dot-inline" class="status-inline-dot"></span> <span id="unbound_status" class="value-display">加载中...</span></p> <!-- 新增 inline 状态点 -->
-            <p><span class="label">运行时间:</span> <span id="unbound_uptime" class="value-display">加载中...</span></p>
-            <p><span class="label">查询总数:</span> <span id="unbound_total_queries" class="value-display accent">加载中...</span></p>
-            <p><span class="label">缓存命中次数:</span> <span id="unbound_cache_hits" class="value-display accent">加载中...</span></p>
-            <p><span class="label">缓存未命中次数:</span> <span id="unbound_cache_misses" class="value-display accent">加载中...</span></p>
-            <p><span class="label">缓存命中率:</span> <span id="unbound_cache_hit_percentage" class="value-display accent">加载中...</span></p>
-            <p><span class="label">预取次数:</span> <span id="unbound_prefetch_count" class="value-display accent">加载中...</span></p>
-            <p><span class="label">过期条目数:</span> <span id="unbound_expired_entries" class="value-display accent">加载中...</span></p>
-            <p><span class="label">递归回复次数:</span> <span id="unbound_recursive_replies" class="value-display accent">加载中...</span></p>
-            <p><span class="label">平均递归时间:</span> <span id="unbound_avg_recursion_time_s" class="value-display accent">加载中...</span></p>
-            <p><span class="label">中位递归时间:</span> <span id="unbound_median_recursion_time_s" class="value-display accent">加载中...</span></p>
+            <p><span class="label">状态</span> <span class="value-display"><span id="unbound-status-dot-inline" class="status-inline-dot"></span> <span id="unbound_status">加载中...</span></span></p>
+            <p><span class="label">运行时间</span> <span id="unbound_uptime" class="value-display">加载中...</span></p>
+            <p><span class="label">查询总数</span> <span id="unbound_total_queries" class="value-display accent">加载中...</span></p>
+            <p><span class="label">缓存命中次数</span> <span id="unbound_cache_hits" class="value-display accent">加载中...</span></p>
+            <p><span class="label">缓存未命中次数</span> <span id="unbound_cache_misses" class="value-display accent">加载中...</span></p>
+            <p><span class="label">缓存命中率</span> <span id="unbound_cache_hit_percentage" class="value-display accent">加载中...</span></p>
+            <p><span class="label">预取次数</span> <span id="unbound_prefetch_count" class="value-display accent">加载中...</span></p>
+            <p><span class="label">过期条目数</span> <span id="unbound_expired_entries" class="value-display accent">加载中...</span></p>
+            <p><span class="label">递归回复次数</span> <span id="unbound_recursive_replies" class="value-display accent">加载中...</span></p>
+            <p><span class="label">平均递归时间</span> <span id="unbound_avg_recursion_time_s" class="value-display accent">加载中...</span></p>
+            <p><span class="label">中位递归时间</span> <span id="unbound_median_recursion_time_s" class="value-display accent">加载中...</span></p>
         </div>
 
         <!-- Redis Status Card -->
         <div class="card redis-card">
             <h2><span class="title-text">Redis 服务状态</span></h2> <!-- 移除 H2 状态点 -->
             <div class="card-title-gradient-bar"></div>
-            <p><span class="label">状态:</span> <span id="redis-status-dot-inline" class="status-inline-dot"></span> <span id="redis_status" class="value-display">加载中...</span></p> <!-- 新增 inline 状态点 -->
-            <p><span class="label">运行时间:</span> <span id="redis_uptime" class="value-display">加载中...</span></p>
-            <p><span class="label">数据库大小:</span> <span id="redis_database_size_records" class="value-display accent">加载中...</span></p>
-            <p><span class="label">键空间命中次数:</span> <span id="redis_keyspace_hits" class="value-display accent">加载中...</span></p>
-            <p><span class="label">键空间未命中次数:</span> <span id="redis_keyspace_misses" class="value-display accent">加载中...</span></p>
-            <p><span class="label">键空间命中率:</span> <span id="redis_keyspace_hit_percentage" class="value-display accent">加载中...</span></p>
-            <p><span class="label">已用内存:</span> <span id="redis_used_memory" class="value-display accent">加载中...</span></p>
-            <p><span class="label">常驻内存:</span> <span id="redis_resident_memory" class="value-display accent">加载中...</span></p>
-            <p><span class="label">内存使用峰值:</span> <span id="redis_used_memory_peak" class="value-display accent">加载中...</span></p>
+            <p><span class="label">状态</span> <span class="value-display"><span id="redis-status-dot-inline" class="status-inline-dot"></span> <span id="redis_status">加载中...</span></span></p>
+            <p><span class="label">运行时间</span> <span id="redis_uptime" class="value-display">加载中...</span></p>
+            <p><span class="label">数据库大小</span> <span id="redis_database_size_records" class="value-display accent">加载中...</span></p>
+            <p><span class="label">键空间命中次数</span> <span id="redis_keyspace_hits" class="value-display accent">加载中...</span></p>
+            <p><span class="label">键空间未命中次数</span> <span id="redis_keyspace_misses" class="value-display accent">加载中...</span></p>
+            <p><span class="label">键空间命中率</span> <span id="redis_keyspace_hit_percentage" class="value-display accent">加载中...</span></p>
+            <p><span class="label">已用内存</span> <span id="redis_used_memory" class="value-display accent">加载中...</span></p>
+            <p><span class="label">常驻内存</span> <span id="redis_resident_memory" class="value-display accent">加载中...</span></p>
+            <p><span class="label">内存使用峰值</span> <span id="redis_used_memory_peak" class="value-display accent">加载中...</span></p>
         </div>
 
         <!-- Query Trend Chart Card -->
@@ -1242,8 +1256,8 @@ EOF
                         unboundPrefetchCountEl.textContent = data.unbound.prefetch_count || '0';
                         unboundExpiredEntriesEl.textContent = data.unbound.expired_entries || '0';
                         unboundRecursiveRepliesEl.textContent = data.unbound.recursive_replies || '0';
-                        unboundAvgRecursionTimeEl.textContent = (data.unbound.avg_recursion_time_s !== undefined ? data.unbound.avg_recursion_time_s.toFixed(3) : '0.000') + ' 秒';
-                        unboundMedianRecursionTimeEl.textContent = (data.unbound.median_recursion_time_s !== undefined ? data.unbound.median_recursion_time_s.toFixed(3) : '0.000') + ' 秒';
+                        unboundAvgRecursionTimeEl.textContent = (data.unbound.avg_recursion_time_s !== undefined ? data.unbound.avg_recursion_time_s.toFixed(3) : '0.000') + ' s';
+                        unboundMedianRecursionTimeEl.textContent = (data.unbound.median_recursion_time_s !== undefined ? data.unbound.median_recursion_time_s.toFixed(3) : '0.000') + ' s';
                     } else {
                         updateStatusDot(unboundStatusDotInline, false); // Update the inline dot to red
                         unboundStatusEl.classList.add('error');
@@ -1389,7 +1403,7 @@ EOF
                 const unboundStatusEl = document.getElementById('unbound_status');
                 if (unboundStatusEl) {
                     unboundStatusEl.classList.add('error');
-                    unboundStatusEl.textContent = `连接错误，无法获取 Unbound 状态。`;
+                    unboundStatusEl.textContent = `连接错误`;
                     document.getElementById('unbound_uptime').textContent = 'N/A';
                     document.getElementById('unbound_total_queries').textContent = 'N/A';
                     document.getElementById('unbound_cache_hits').textContent = 'N/A';
@@ -1405,7 +1419,7 @@ EOF
                 const redisStatusEl = document.getElementById('redis_status');
                 if (redisStatusEl) {
                     redisStatusEl.classList.add('error');
-                    redisStatusEl.textContent = `连接错误，无法获取 Redis 状态。`;
+                    redisStatusEl.textContent = `连接错误`;
                     document.getElementById('redis_uptime').textContent = 'N/A';
                     document.getElementById('redis_database_size_records').textContent = 'N/A';
                     document.getElementById('redis_keyspace_hits').textContent = 'N/A';
